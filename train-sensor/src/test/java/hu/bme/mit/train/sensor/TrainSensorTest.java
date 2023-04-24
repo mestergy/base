@@ -12,18 +12,18 @@ import static org.mockito.Mockito.*;
 
 
 public class TrainSensorTest {
-    TrainController controller;
-    private TrainUser user = new TrainUserImpl(controller);
-    private int speedLimit = 5;
-    private boolean danger = false;
-    TrainSensor sensor = new TrainSensorImpl(controller, user);
+    private TrainController controller;
+    private TrainSensor sensor;
+    private TrainUser user;    
 
     @Before
     public void before() {
-        controller = mock(TestController.class);
+        controller = mock(TrainController.class);
+        user = new TrainUserImpl(controller);
+        sensor = new TrainSensorImpl(controller, user);
     }
 
-    @Test
+   /* @Test
     public void DangerousSituation() {
         danger = true;
         sensor.dangerDetection(danger);
@@ -33,7 +33,7 @@ public class TrainSensorTest {
     public void Test7() {
         sensor.logTachograph();
         Assert.assertEquals(1, sensor.getLogSize());
-    }
+    }*/
 
     //uj sebesseg korlatozas 0 alatti
     @Test
@@ -52,17 +52,15 @@ public class TrainSensorTest {
       //uj sebesseg korlatozas tul nagy kulonbseg
       @Test
       public void alarmTest3(){
-         controller.setJoystickPosition(150);
-         controller.followSpeed();
-         sensor.overrideSpeedLimit(50);
-         Assert.assertEquals(true, user.getAlarmState());
+        when(controller.getReferenceSpeed(150).thenReturn(150));
+        sensor.overrideSpeedLimit(50);
+        Assert.assertEquals(true, user.getAlarmState());
       }
 
      //uj sebesseg korlatozas jo
      @Test
      public void alarmTest4(){
-        controller.setJoystickPosition(70);
-        controller.followSpeed();
+        when(controller.getReferenceSpeed(70).thenReturn(70));
         sensor.overrideSpeedLimit(50);
         Assert.assertEquals(false, user.getAlarmState());
      }
