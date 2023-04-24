@@ -52,7 +52,7 @@ public class TrainSensorTest {
       //uj sebesseg korlatozas tul nagy kulonbseg
       @Test
       public void alarmTest3(){
-        when(controller.getReferenceSpeed(150).thenReturn(150));
+        when(controller.getReferenceSpeed().thenReturn(150));
         sensor.overrideSpeedLimit(50);
         Assert.assertEquals(true, user.getAlarmState());
       }
@@ -60,7 +60,7 @@ public class TrainSensorTest {
      //uj sebesseg korlatozas jo
      @Test
      public void alarmTest4(){
-        when(controller.getReferenceSpeed(70).thenReturn(70));
+        when(controller.getReferenceSpeed().thenReturn(70));
         sensor.overrideSpeedLimit(50);
         Assert.assertEquals(false, user.getAlarmState());
      }
