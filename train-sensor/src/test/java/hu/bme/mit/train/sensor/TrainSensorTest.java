@@ -12,15 +12,15 @@ import static org.mockito.Mockito.*;
 
 
 public class TrainSensorTest {
-    TestController controller;
-    private TrainUser user = new TrainUserImpl(controller);
-    private int speedLimit = 5;
-    private boolean danger = false;
-    TrainSensor sensor = new TrainSensorImpl(controller, user);
+    private TrainController controller;
+    private TrainUser user;
+    private TrainSensor sensor;
 
     @Before
     public void before() {
-        controller = mock(TestController.class);
+        controller = mock(TrainController.class);
+        user = new TrainUserImpl(controller);
+        sensor = new TrainSensorImpl(controller, user);
     }
 
    /* @Test
