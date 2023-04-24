@@ -12,8 +12,7 @@ import static org.mockito.Mockito.*;
 
 
 public class TrainSensorTest {
-
-    private TrainController controller = new TrainControllerImpl();
+    TestController controller;
     private TrainUser user = new TrainUserImpl(controller);
     private int speedLimit = 5;
     private boolean danger = false;
@@ -21,9 +20,7 @@ public class TrainSensorTest {
 
     @Before
     public void before() {
-        controller = new TrainControllerImpl();
-        speedLimit = 5;
-        danger = false;
+        controller = mock(TestController.class);
     }
 
     @Test
@@ -37,4 +34,36 @@ public class TrainSensorTest {
         sensor.logTachograph();
         Assert.assertEquals(1, sensor.getLogSize());
     }
+
+    //uj sebesseg korlatozas 0 alatti
+    @Test
+    public void alarmTest1(){
+        sensor.overrideSpeedLimit(-2);
+        Assert.assertEquals(true, user.getAlarmState());
+    }
+
+     //uj sebesseg korlatozas 500 feletti
+     @Test
+     public void alarmTest2(){
+         sensor.overrideSpeedLimit(525);
+         Assert.assertEquals(true, user.getAlarmState());
+     }
+
+      //uj sebesseg korlatozas tul nagy kulonbseg
+      @Test
+      public void alarmTest3(){
+         controller.setJoystickPosition(150);
+         controller.followSpeed();
+         sensor.overrideSpeedLimit(50);
+         Assert.assertEquals(true, user.getAlarmState());
+      }
+
+     //uj sebesseg korlatozas jo
+     @Test
+     public void alarmTest4(){
+        controller.setJoystickPosition(70);
+        controller.followSpeed();
+        sensor.overrideSpeedLimit(50);
+        Assert.assertEquals(false, user.getAlarmState());
+     }
 }
