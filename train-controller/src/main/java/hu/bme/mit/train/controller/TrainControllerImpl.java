@@ -4,7 +4,10 @@ import javax.crypto.SecretKeyFactory;
 
 import hu.bme.mit.train.interfaces.TrainController;
 
-public class TrainControllerImpl implements TrainController {
+import java.util.Observable;
+import java.util.Observer;
+
+public class TrainControllerImpl extends Observable implements TrainController {
 
 	private int step = 0;
 	private int referenceSpeed = 0;
