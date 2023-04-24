@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 
 
 public class TrainSensorTest {
-    TestController controller;
+    TrainController controller;
     private TrainUser user = new TrainUserImpl(controller);
     private int speedLimit = 5;
     private boolean danger = false;
@@ -20,7 +20,7 @@ public class TrainSensorTest {
 
     @Before
     public void before() {
-        controller = mock(TestController.class);
+        controller = mock(TrainController.class);
     }
 
     @Test
