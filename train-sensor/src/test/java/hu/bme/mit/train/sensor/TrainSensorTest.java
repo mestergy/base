@@ -19,7 +19,8 @@ public class TrainSensorTest {
     @Before
     public void before() {
         controller = mock(TrainController.class);
-        user = new TrainUserImpl(controller);
+        user = mock(TrainUser.class);
+        //user = new TrainUserImpl(controller);
         sensor = new TrainSensorImpl(controller, user);
     }
 
@@ -39,14 +40,16 @@ public class TrainSensorTest {
     @Test
     public void alarmTest1(){
         sensor.overrideSpeedLimit(-2);
-        Assert.assertEquals(true, user.getAlarmState());
+       // Assert.assertEquals(true, user.getAlarmState());
+        verify(user, times(1)).setAlarmState(true);
     }
 
      //uj sebesseg korlatozas 500 feletti
      @Test
      public void alarmTest2(){
          sensor.overrideSpeedLimit(525);
-         Assert.assertEquals(true, user.getAlarmState());
+        // Assert.assertEquals(true, user.getAlarmState());
+         verify(user, times(1)).setAlarmState(true);
      }
 
       //uj sebesseg korlatozas tul nagy kulonbseg
@@ -55,6 +58,7 @@ public class TrainSensorTest {
         when(controller.getReferenceSpeed()).thenReturn(150);
         sensor.overrideSpeedLimit(50);
         verify(controller, times(1)).getReferenceSpeed();
+        verify(user, times(1)).setAlarmState(true);
       }
 
      //uj sebesseg korlatozas jo
@@ -63,5 +67,7 @@ public class TrainSensorTest {
          when(controller.getReferenceSpeed()).thenReturn(70);
          sensor.overrideSpeedLimit(50);
          verify(controller, times(1)).getReferenceSpeed();
+         verify(user, times(0)).setAlarmState(false);
+         verify(user, times(0)).setAlarmState(true);
      }
 }
